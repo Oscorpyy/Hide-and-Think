@@ -13,7 +13,7 @@ export default function GameEngine({
 }) {
   // Local states for game phases
   const [step, setStep] = useState<"Prompt" | "Answers" | "Debate" | "Vote" | "Results">("Answers");
-  const [prompt, setPrompt] = useState("If you had to hide a body, where would you put it?");
+  const [prompt] = useState("If you had to hide a body, where would you put it?");
   
   const [currentAnswerIndex, setCurrentAnswerIndex] = useState(0);
   const [answers, setAnswers] = useState<{playerId: string; answer: string}[]>([]);
@@ -95,7 +95,7 @@ export default function GameEngine({
     return (
       <div className="w-full max-w-md space-y-6 text-center">
         <h2 className="text-2xl font-bold text-fuchsia-400">Time to Debate!</h2>
-        <p className="text-white text-lg bg-purple-900/40 p-4 rounded-xl italic">"{authorAnswer}"</p>
+        <p className="text-white text-lg bg-purple-900/40 p-4 rounded-xl italic">&quot;{authorAnswer}&quot;</p>
         <p className="text-purple-300 text-sm">Who wrote this answer? Discuss for a while, then proceed to voting.</p>
         <button
           onClick={() => setStep("Vote")}
