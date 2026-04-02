@@ -15,9 +15,10 @@ import { useGame } from "@/hooks/useGame";
 import { generateRoomCode } from "@/lib/utils";
 import PlayerList from "@/components/PlayerList";
 import ChatBox from "@/components/ChatBox";
+import GameEngine from "@/components/GameEngine";
 
 // Top-level view within the landing flow
-type View = "home" | "online-setup" | "lobby";
+type View = "home" | "online-setup" | "lobby" | "game";
 
 export default function Home() {
   const game = useGame();
@@ -318,6 +319,7 @@ export default function Home() {
             {/* Start button (host only) */}
             {game.playerRole === "Host" && (
               <button
+                onClick={() => setView("game")}
                 disabled={game.players.length < 2}
                 className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-700 to-fuchsia-700 px-6 py-4 text-base font-bold shadow-lg shadow-fuchsia-900/30 transition hover:brightness-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
               >
@@ -350,6 +352,12 @@ export default function Home() {
             )}
           </section>
         )}
+
+        {/* ── GAME ─────────────────────────────────────────────────────── */}
+        {view === "game" && <GameEngine onRestart={() => {
+          game.resetGame();
+          setView("home"); // Return to home or lobby as desired
+        }} game={game} />}
       </div>
     </main>
   );
