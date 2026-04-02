@@ -70,13 +70,19 @@ export default function Home() {
   const handleLocalPlay = () => {
     game.setPlayerRole("Host");
     game.setGameMode("Local");
-    game.addPlayer({
-      id: game.currentPlayerId,
-      name: "Player 1",
-      score: 0,
-      isHost: true,
-    });
     setView("lobby");
+  };
+
+  const handleAddLocalPlayer = () => {
+    if (!playerNameInput.trim()) return;
+    const isFirst = game.players.length === 0;
+    game.addPlayer({
+      id: isFirst ? game.currentPlayerId : "local-" + Date.now().toString() + Math.random().toString(36).slice(2, 7),
+      name: playerNameInput.trim(),
+      score: 0,
+      isHost: isFirst,
+    });
+    setPlayerNameInput("");
   };
 
   const handleBack = () => {
@@ -283,6 +289,27 @@ export default function Home() {
             </div>
 
             {/* Player list */}
+            {game.gameMode === "Local" && (
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder="Enter player name"
+                  value={playerNameInput}
+                  onChange={(e) => setPlayerNameInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") handleAddLocalPlayer();
+                  }}
+                  className="w-full rounded-xl bg-purple-950/50 px-4 py-3 text-sm placeholder-purple-400 text-white outline-none border border-purple-800/50 focus:border-fuchsia-500 transition-colors"
+                />
+                <button
+                  onClick={handleAddLocalPlayer}
+                  disabled={!playerNameInput.trim()}
+                  className="rounded-xl bg-fuchsia-600 px-6 font-bold hover:bg-fuchsia-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  Add
+                </button>
+              </div>
+            )}
             <PlayerList
               players={game.players}
               currentPlayerId={game.currentPlayerId}
