@@ -11,7 +11,7 @@ import {
   PlusCircle,
   Zap,
 } from "lucide-react";
-import { useGame } from "@/hooks/useGame";
+import { useGame, Language } from "@/hooks/useGame";
 import { generateRoomCode } from "@/lib/utils";
 import PlayerList from "@/components/PlayerList";
 import ChatBox from "@/components/ChatBox";
@@ -165,7 +165,7 @@ export default function Home() {
                 <span>Language:</span>
                 <select 
                   value={game.language}
-                  onChange={(e) => game.setLanguage(e.target.value as any)}
+                  onChange={(e) => game.setLanguage(e.target.value as Language)}
                   className="bg-transparent text-purple-300 outline-none cursor-pointer"
                 >
                   <option value="en">English</option>

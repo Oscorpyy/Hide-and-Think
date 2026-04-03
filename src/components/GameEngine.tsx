@@ -17,7 +17,7 @@ export default function GameEngine({
   const [prompt] = useState(() => {
     const rawQ = questionsData[Math.floor(Math.random() * questionsData.length)];
     // Fallback safely if language is slightly mismatched
-    return (rawQ as any)[game.language] || rawQ.en;
+    return (rawQ as Record<string, string>)[game.language] || rawQ.en;
   });
   
   const [currentAnswerIndex, setCurrentAnswerIndex] = useState(0);
