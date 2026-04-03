@@ -1,7 +1,8 @@
 "use client";
 
 import { Users } from "lucide-react";
-import { Player } from "@/hooks/useGame";
+import { Player, useGame } from "@/hooks/useGame";
+import { t } from "@/lib/i18n";
 
 interface PlayerListProps {
   players: Player[];
@@ -12,11 +13,12 @@ export default function PlayerList({
   players,
   currentPlayerId,
 }: PlayerListProps) {
+  const game = useGame();
   return (
     <div className="rounded-xl border border-purple-700/40 bg-[#0f0a1e]/70 p-4 backdrop-blur">
       <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-purple-300">
         <Users size={16} className="text-fuchsia-400" />
-        Players&nbsp;
+        {t(game.language, "players")}&nbsp;
         <span className="ml-auto rounded-full bg-purple-800/60 px-2 py-0.5 text-xs text-purple-200">
           {players.length}
         </span>
@@ -24,7 +26,7 @@ export default function PlayerList({
 
       {players.length === 0 ? (
         <p className="text-center text-sm text-purple-500/70 italic">
-          Waiting for players…
+          {t(game.language, "waitingPlayers")}
         </p>
       ) : (
         <ul className="space-y-2">
@@ -44,17 +46,17 @@ export default function PlayerList({
                 <span className="text-sm font-medium text-white">
                   {player.name}
                   {player.id === currentPlayerId && (
-                    <span className="ml-1 text-xs text-fuchsia-400">(you)</span>
+                    <span className="ml-1 text-xs text-fuchsia-400"> {t(game.language, "you")}</span>
                   )}
                 </span>
                 {player.isHost && (
                   <span className="rounded bg-yellow-500/20 px-1.5 py-0.5 text-xs text-yellow-300">
-                    Host
+                    {t(game.language, "host")}
                   </span>
                 )}
               </div>
               <span className="text-xs font-bold text-fuchsia-300">
-                {player.score} pts
+                {player.score} {t(game.language, "pts")}
               </span>
             </li>
           ))}

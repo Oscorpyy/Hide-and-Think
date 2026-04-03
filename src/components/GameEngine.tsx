@@ -4,6 +4,7 @@ import { useState } from "react";
 import { GameContextState } from "@/hooks/useGame";
 import { ArrowRight, Trophy, Vote } from "lucide-react";
 import questionsData from "../../questions.json";
+import { t } from "@/lib/i18n";
 
 export default function GameEngine({
   onRestart,
@@ -76,37 +77,37 @@ export default function GameEngine({
     const currentPlayer = game.players[currentAnswerIndex];
     return (
       <div className="w-full max-w-md space-y-6 text-center">
-        <h2 className="text-2xl font-bold text-white">Pass to {currentPlayer?.name}</h2>
-        <p className="text-purple-300">Prompt: {prompt}</p>
+        <h2 className="text-2xl font-bold text-white">{t(game.language, "passTo")} {currentPlayer?.name}</h2>
+        <p className="text-purple-300">{t(game.language, "prompt")} {prompt}</p>
         <textarea
           className="w-full rounded-xl bg-purple-950/50 p-4 text-white outline-none border border-purple-800/50 focus:border-fuchsia-500"
           rows={4}
-          placeholder="Type your secret answer..."
+          placeholder={t(game.language, "typeAnswer")}
           value={currentAnswerText}
-          onChange={e => setCurrentAnswerText(e.target.value)}
+          onChange={(e: any) => setCurrentAnswerText(e.target.value)}
         />
         <button
           onClick={handleNextAnswer}
           className="w-full rounded-xl bg-fuchsia-600 px-6 py-3 font-bold hover:bg-fuchsia-500 transition-colors"
         >
-          Submit & Pass <ArrowRight className="inline ml-2" size={18} />
+          {t(game.language, "submitPass")} <ArrowRight className="inline ml-2" size={18} />
         </button>
       </div>
     );
   }
 
   if (step === "Debate") {
-    const authorAnswer = answers.find(a => a.playerId === authorId)?.answer;
+    const authorAnswer = answers.find((a: any) => a.playerId === authorId)?.answer;
     return (
       <div className="w-full max-w-md space-y-6 text-center">
-        <h2 className="text-2xl font-bold text-fuchsia-400">Time to Debate!</h2>
+        <h2 className="text-2xl font-bold text-fuchsia-400">{t(game.language, "timeToDebate")}</h2>
         <p className="text-white text-lg bg-purple-900/40 p-4 rounded-xl italic">&quot;{authorAnswer}&quot;</p>
-        <p className="text-purple-300 text-sm">Who wrote this answer? Discuss for a while, then proceed to voting.</p>
+        <p className="text-purple-300 text-sm">{t(game.language, "whoWroteThis")}</p>
         <button
           onClick={() => setStep("Vote")}
           className="w-full rounded-xl bg-fuchsia-600 px-6 py-3 font-bold hover:bg-fuchsia-500 transition-colors"
         >
-          Start Voting <Vote className="inline ml-2" size={18} />
+          {t(game.language, "startVoting")} <Vote className="inline ml-2" size={18} />
         </button>
       </div>
     );
@@ -117,8 +118,8 @@ export default function GameEngine({
     // Skip if current player is the author? Actually authors can vote too (to self-vote or bluff) or we let everyone vote.
     return (
       <div className="w-full max-w-md space-y-6 text-center">
-        <h2 className="text-2xl font-bold text-white">Pass to {currentPlayer?.name}</h2>
-        <p className="text-purple-300">Who do you think wrote the answer?</p>
+        <h2 className="text-2xl font-bold text-white">{t(game.language, "passTo")} {currentPlayer?.name}</h2>
+        <p className="text-purple-300">{t(game.language, "whoDoYouThink")}</p>
         <div className="space-y-3">
           {game.players.map(p => (
             <button
@@ -139,13 +140,13 @@ export default function GameEngine({
     return (
       <div className="w-full max-w-md space-y-6 text-center">
         <Trophy className="mx-auto text-yellow-400" size={48} />
-        <h2 className="text-3xl font-bold text-white">Results!</h2>
-        <p className="text-purple-300">The answer was written by <span className="font-bold text-fuchsia-400">{author?.name}</span>!</p>
+        <h2 className="text-3xl font-bold text-white">{t(game.language, "results")}</h2>
+        <p className="text-purple-300">{t(game.language, "answerWrittenBy")} <span className="font-bold text-fuchsia-400">{author?.name}</span>!</p>
         <div className="space-y-3 bg-purple-950/40 p-4 rounded-xl">
           {game.players.map(p => (
             <div key={p.id} className="flex justify-between items-center border-b border-purple-800/30 py-2 last:border-0">
               <span className="text-white">{p.name}</span>
-              <span className="text-fuchsia-300 font-bold">+{scores.get(p.id) || 0} pts</span>
+              <span className="text-fuchsia-300 font-bold">+{scores.get(p.id) || 0} {t(game.language, "pts")}</span>
             </div>
           ))}
         </div>
@@ -153,7 +154,7 @@ export default function GameEngine({
           onClick={onRestart}
           className="w-full rounded-xl mt-4 bg-fuchsia-600 px-6 py-3 font-bold hover:bg-fuchsia-500 transition-colors"
         >
-          Return to Lobby
+          {t(game.language, "returnLobby")}
         </button>
       </div>
     );

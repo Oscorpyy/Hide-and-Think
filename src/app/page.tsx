@@ -16,6 +16,7 @@ import { generateRoomCode } from "@/lib/utils";
 import PlayerList from "@/components/PlayerList";
 import ChatBox from "@/components/ChatBox";
 import GameEngine from "@/components/GameEngine";
+import { t } from "@/lib/i18n";
 
 // Top-level view within the landing flow
 type View = "home" | "online-setup" | "lobby" | "game";
@@ -128,7 +129,7 @@ export default function Home() {
                 </span>
               </h1>
               <p className="text-sm text-purple-300/80">
-                The social deduction party game
+                {t(game.language, "tagline")}
               </p>
             </div>
 
@@ -139,9 +140,9 @@ export default function Home() {
                 className="group flex items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-purple-700 to-fuchsia-700 px-6 py-4 text-lg font-bold shadow-lg shadow-fuchsia-900/30 transition hover:brightness-110 active:scale-95"
               >
                 <Gamepad2 size={22} />
-                Local Play
+                {t(game.language, "localPlay")}
                 <span className="ml-auto text-xs font-normal text-purple-200 opacity-70 group-hover:opacity-100">
-                  Same device
+                  {t(game.language, "sameDevice")}
                 </span>
               </button>
 
@@ -150,19 +151,19 @@ export default function Home() {
                 className="group flex items-center justify-center gap-3 rounded-xl border border-fuchsia-600/50 bg-fuchsia-600/10 px-6 py-4 text-lg font-bold shadow-lg shadow-fuchsia-900/20 transition hover:border-fuchsia-500 hover:bg-fuchsia-600/20 active:scale-95"
               >
                 <Globe size={22} className="text-fuchsia-400" />
-                Online Play
+                {t(game.language, "onlinePlay")}
                 <span className="ml-auto text-xs font-normal text-purple-200 opacity-70 group-hover:opacity-100">
-                  Create or Join
+                  {t(game.language, "createOrJoin")}
                 </span>
               </button>
             </div>
 
             {/* Tagline & Settings */}
             <div className="flex flex-col items-center gap-4 text-xs text-purple-600/70">
-              <p>Deceive. Deduce. Dominate.</p>
+              <p>{t(game.language, "motto")}</p>
               
               <div className="flex items-center gap-2 mt-4 bg-purple-950/30 px-3 py-1.5 rounded-full border border-purple-800/30">
-                <span>Language:</span>
+                <span>{t(game.language, "language")}</span>
                 <select 
                   value={game.language}
                   onChange={(e) => game.setLanguage(e.target.value as Language)}
@@ -279,7 +280,7 @@ export default function Home() {
                 onClick={handleBack}
                 className="flex items-center gap-1 text-sm text-purple-400 transition hover:text-fuchsia-300"
               >
-                <ArrowLeft size={16} /> Leave
+                <ArrowLeft size={16} /> {t(game.language, "leave")}
               </button>
               <div className="ml-auto flex items-center gap-2">
                 {game.gameMode === "Online" && (
@@ -298,11 +299,11 @@ export default function Home() {
 
             {/* Title */}
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-white">Lobby</h2>
+              <h2 className="text-2xl font-bold text-white">{t(game.language, "lobby")}</h2>
               <p className="text-sm text-purple-400">
                 {game.gameMode === "Local"
-                  ? "Pass the device to each player to join."
-                  : "Share the room code with friends."}
+                  ? t(game.language, "passDevice")
+                  : t(game.language, "shareCode")}
               </p>
             </div>
 
@@ -311,7 +312,7 @@ export default function Home() {
               <div className="flex gap-2">
                 <input
                   type="text"
-                  placeholder="Enter player name"
+                  placeholder={t(game.language, "enterPlayerName")}
                   value={playerNameInput}
                   onChange={(e) => setPlayerNameInput(e.target.value)}
                   onKeyDown={(e) => {
@@ -324,7 +325,7 @@ export default function Home() {
                   disabled={!playerNameInput.trim()}
                   className="rounded-xl bg-fuchsia-600 px-6 font-bold hover:bg-fuchsia-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
-                  Add
+                  {t(game.language, "add")}
                 </button>
               </div>
             )}
@@ -342,8 +343,8 @@ export default function Home() {
               >
                 <Zap size={18} />
                 {game.players.length < 2
-                  ? `Waiting for players… (${game.players.length}/2+)`
-                  : "Start Game"}
+                  ? `${t(game.language, "waitingPlayers")} (${game.players.length}/2+)`
+                  : t(game.language, "startGame")}
               </button>
             )}
 
