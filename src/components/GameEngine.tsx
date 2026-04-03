@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { GameContextState } from "@/hooks/useGame";
 import { ArrowRight, Trophy, Vote } from "lucide-react";
 import questionsData from "../../questions.json";
@@ -84,7 +84,7 @@ export default function GameEngine({
           rows={4}
           placeholder={t(game.language, "typeAnswer")}
           value={currentAnswerText}
-          onChange={(e: any) => setCurrentAnswerText(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setCurrentAnswerText(e.target.value)}
         />
         <button
           onClick={handleNextAnswer}
@@ -97,7 +97,7 @@ export default function GameEngine({
   }
 
   if (step === "Debate") {
-    const authorAnswer = answers.find((a: any) => a.playerId === authorId)?.answer;
+    const authorAnswer = answers.find((a: {playerId: string; answer: string}) => a.playerId === authorId)?.answer;
     return (
       <div className="w-full max-w-md space-y-6 text-center">
         <h2 className="text-2xl font-bold text-fuchsia-400">{t(game.language, "timeToDebate")}</h2>
