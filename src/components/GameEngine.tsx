@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { GameContextState } from "@/hooks/useGame";
 import { ArrowRight, Trophy, Vote } from "lucide-react";
+import questionsData from "../../questions.json";
 
 export default function GameEngine({
   onRestart,
@@ -13,7 +14,11 @@ export default function GameEngine({
 }) {
   // Local states for game phases
   const [step, setStep] = useState<"Prompt" | "Answers" | "Debate" | "Vote" | "Results">("Answers");
-  const [prompt] = useState("If you had to hide a body, where would you put it?");
+  const [prompt] = useState(() => {
+    const rawQ = questionsData[Math.floor(Math.random() * questionsData.length)];
+    // Fallback safely if language is slightly mismatched
+    return (rawQ as any)[game.language] || rawQ.en;
+  });
   
   const [currentAnswerIndex, setCurrentAnswerIndex] = useState(0);
   const [answers, setAnswers] = useState<{playerId: string; answer: string}[]>([]);

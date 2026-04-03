@@ -157,10 +157,27 @@ export default function Home() {
               </button>
             </div>
 
-            {/* Tagline */}
-            <p className="text-xs text-purple-600/70">
-              Deceive. Deduce. Dominate.
-            </p>
+            {/* Tagline & Settings */}
+            <div className="flex flex-col items-center gap-4 text-xs text-purple-600/70">
+              <p>Deceive. Deduce. Dominate.</p>
+              
+              <div className="flex items-center gap-2 mt-4 bg-purple-950/30 px-3 py-1.5 rounded-full border border-purple-800/30">
+                <span>Language:</span>
+                <select 
+                  value={game.language}
+                  onChange={(e) => game.setLanguage(e.target.value as any)}
+                  className="bg-transparent text-purple-300 outline-none cursor-pointer"
+                >
+                  <option value="en">English</option>
+                  <option value="fr">Français</option>
+                  <option value="es">Español</option>
+                  <option value="de">Deutsch</option>
+                  <option value="it">Italiano</option>
+                  <option value="zh">中文</option>
+                  <option value="ja">日本語</option>
+                </select>
+              </div>
+            </div>
           </section>
         )}
 

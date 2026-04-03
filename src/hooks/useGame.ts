@@ -6,6 +6,7 @@ import { groupAnswers } from "@/lib/utils";
 export type PlayerRole = "Host" | "Player" | null;
 export type GameMode = "Local" | "Online" | null;
 export type GameState = "Lobby" | "Input" | "Debate" | "Voting" | "Results";
+export type Language = "en" | "fr" | "es" | "de" | "it" | "zh" | "ja";
 
 export interface Player {
   id: string;
@@ -26,6 +27,7 @@ export interface GameContextState {
   playerRole: PlayerRole;
   gameMode: GameMode;
   gameState: GameState;
+  language: Language;
   roomCode: string;
   players: Player[];
   chatMessages: ChatMessage[];
@@ -33,6 +35,7 @@ export interface GameContextState {
   setPlayerRole: (role: PlayerRole) => void;
   setGameMode: (mode: GameMode) => void;
   setGameState: (state: GameState) => void;
+  setLanguage: (lang: Language) => void;
   setRoomCode: (code: string) => void;
   addPlayer: (player: Player) => void;
   removePlayer: (playerId: string) => void;
@@ -49,6 +52,7 @@ export function useGame(): GameContextState {
   const [playerRole, setPlayerRole] = useState<PlayerRole>(null);
   const [gameMode, setGameMode] = useState<GameMode>(null);
   const [gameState, setGameState] = useState<GameState>("Lobby");
+  const [language, setLanguage] = useState<Language>("en");
   const [roomCode, setRoomCode] = useState<string>("");
   const [players, setPlayers] = useState<Player[]>([]);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
@@ -145,6 +149,7 @@ export function useGame(): GameContextState {
     playerRole,
     gameMode,
     gameState,
+    language,
     roomCode,
     players,
     chatMessages,
@@ -152,6 +157,7 @@ export function useGame(): GameContextState {
     setPlayerRole,
     setGameMode,
     setGameState,
+    setLanguage,
     setRoomCode,
     addPlayer,
     removePlayer,

@@ -1,0 +1,302 @@
+[
+  {
+    "id": "q_001",
+    "en": "If you had to hide a body, where would you put it?",
+    "fr": "Si tu devais cacher un corps, où le mettrais-tu ?",
+    "es": "Si tuvieras que esconder un cuerpo, ¿dónde lo pondrías?",
+    "de": "Wenn du eine Leiche verstecken müsstest, wo würdest du sie ablegen?",
+    "it": "Se dovessi nascondere un cadavere, dove lo metteresti?",
+    "zh": "如果你必须藏一具尸体，你会把它藏在哪？",
+    "ja": "もし死体を隠さなければならないとしたら、どこに隠しますか？"
+  },
+  {
+    "id": "q_002",
+    "en": "What is the most embarrassing thing you have ever searched on Google?",
+    "fr": "Quelle est la chose la plus embarrassante que tu aies jamais cherchée sur Google ?",
+    "es": "¿Qué es lo más vergonzoso que has buscado en Google?",
+    "de": "Was ist das Peinlichste, das du je gegoogelt hast?",
+    "it": "Qual è la cosa più imbarazzante che hai mai cercato su Google?",
+    "zh": "你在谷歌上搜过的最尴尬的东西是什么？",
+    "ja": "Googleで検索した中で、最も恥ずかしいことは何ですか？"
+  },
+  {
+    "id": "q_003",
+    "en": "If you were arrested with no explanation, what would your friends assume you did?",
+    "fr": "Si tu étais arrêté sans explication, de quoi tes amis te croiraient-ils coupable ?",
+    "es": "Si te arrestaran sin explicación, ¿qué asumirían tus amigos que hiciste?",
+    "de": "Wenn du ohne Erklärung verhaftet würdest, was würden deine Freunde denken, was du getan hast?",
+    "it": "Se ti arrestassero senza spiegazioni, cosa penserebbero i tuoi amici che tu abbia fatto?",
+    "zh": "如果你在没有任何解释的情况下被捕，你的朋友会认为你做了什么？",
+    "ja": "もし説明もなく逮捕されたら、友達はあなたが何をしたと思うでしょうか？"
+  },
+  {
+    "id": "q_004",
+    "en": "What is a secret conspiracy theory you actually believe in?",
+    "fr": "À quelle théorie du complot crois-tu secrètement ?",
+    "es": "¿En qué teoría de conspiración crees secretamente?",
+    "de": "An welche Verschwörungstheorie glaubst du heimlich?",
+    "it": "A quale teoria del complotto credi segretamente?",
+    "zh": "你秘密相信哪一个阴谋论？",
+    "ja": "密かに信じている陰謀論は何ですか？"
+  },
+  {
+    "id": "q_005",
+    "en": "What's the worst advice you have ever given?",
+    "fr": "Quel est le pire conseil que tu aies jamais donné ?",
+    "es": "¿Cuál es el peor consejo que has dado?",
+    "de": "Was ist der schlechteste Ratschlag, den du je gegeben hast?",
+    "it": "Qual è il peggior consiglio che hai mai dato?",
+    "zh": "你给过的最糟糕的建议是什么？",
+    "ja": "今までに与えた最悪のアドバイスは何ですか？"
+  },
+  {
+    "id": "q_006",
+    "en": "If you could make one thing illegal, what would it be?",
+    "fr": "Si tu pouvais rendre une chose illégale, quelle serait-elle ?",
+    "es": "Si pudieras hacer ilegal una cosa, ¿cuál sería?",
+    "de": "Wenn du eine Sache illegal machen könntest, welche wäre das?",
+    "it": "Se potessi rendere illegale una cosa, quale sarebbe?",
+    "zh": "如果你能把一件事定为违法，那会是什么？",
+    "ja": "もし一つのことを違法にできるとしたら、何にしますか？"
+  },
+  {
+    "id": "q_007",
+    "en": "What is the weirdest thing you do when you are alone?",
+    "fr": "Quelle est la chose la plus bizarre que tu fais quand tu es seul ?",
+    "es": "¿Qué es lo más raro que haces cuando estás solo?",
+    "de": "Was ist das Seltsamste, das du tust, wenn du alleine bist?",
+    "it": "Qual è la cosa più strana che fai quando sei da solo?",
+    "zh": "你一个人时做的最奇怪的事是什么？",
+    "ja": "一人でいる時にする、最も奇妙なことは何ですか？"
+  },
+  {
+    "id": "q_008",
+    "en": "If you had to fake your own death, how would you do it?",
+    "fr": "Si tu devais simuler ta propre mort, comment ferais-tu ?",
+    "es": "Si tuvieras que fingir tu propia muerte, ¿cómo lo harías?",
+    "de": "Wenn du deinen eigenen Tod vortäuschen müsstest, wie würdest du es tun?",
+    "it": "Se dovessi fingere la tua morte, come faresti?",
+    "zh": "如果你不得不伪造自己的死亡，你会怎么做？",
+    "ja": "もし自分の死を偽装しなければならないとしたら、どうしますか？"
+  },
+  {
+    "id": "q_009",
+    "en": "What is the most ridiculous lie you have ever told to get out of doing something?",
+    "fr": "Quel est le mensonge le plus ridicule que tu aies jamais raconté pour éviter de faire quelque chose ?",
+    "es": "¿Cuál es la mentira más ridícula que has dicho para evitar hacer algo?",
+    "de": "Was ist die lächerlichste Lüge, die du je erzählt hast, um dich vor etwas zu drücken?",
+    "it": "Qual è la bugia più ridicola che hai mai detto per evitare di fare qualcosa?",
+    "zh": "为了逃避某事，你讲过最荒谬的谎言是什么？",
+    "ja": "何かを避けるために言った、最も馬鹿げた嘘は何ですか？"
+  },
+  {
+    "id": "q_010",
+    "en": "If you were a cult leader, what would your cult be about?",
+    "fr": "Si tu étais le gourou d'une secte, quel en serait le thème ?",
+    "es": "Si fueras líder de un culto, ¿de qué trataría tu culto?",
+    "de": "Wenn du ein Sektenführer wärst, worum würde es in deiner Sekte gehen?",
+    "it": "Se fossi il leader di una setta, su cosa si baserebbe?",
+    "zh": "如果你是一个邪教领袖，你的教派会是关于什么的？",
+    "ja": "もしカルトの教祖だとしたら、どんな教義を掲げますか？"
+  },
+  {
+    "id": "q_011",
+    "en": "What is the pettiest reason you have ever stopped talking to someone?",
+    "fr": "Quelle est la raison la plus mesquine pour laquelle tu as arrêté de parler à quelqu'un ?",
+    "es": "¿Cuál es la razón más mezquina por la que dejaste de hablar con alguien?",
+    "de": "Was ist der kleinlichste Grund, aus dem du je aufgehört hast, mit jemandem zu reden?",
+    "it": "Qual è il motivo più meschino per cui hai smesso di parlare con qualcuno?",
+    "zh": "你停止与某人交谈的最微不足道的理由是什么？",
+    "ja": "誰かと口を利かなくなった、最も些細な理由は何ですか？"
+  },
+  {
+    "id": "q_012",
+    "en": "If animals could talk, which species would be the rudest?",
+    "fr": "Si les animaux pouvaient parler, quelle espèce serait la plus malpolie ?",
+    "es": "Si los animales pudieran hablar, ¿qué especie sería la más grosera?",
+    "de": "Wenn Tiere sprechen könnten, welche Art wäre am unhöflichsten?",
+    "it": "Se gli animali potessero parlare, quale specie sarebbe la più maleducata?",
+    "zh": "如果动物会说话，哪种动物会最无礼？",
+    "ja": "もし動物が話せるとしたら、どの種類が一番失礼だと思いますか？"
+  },
+  {
+    "id": "q_013",
+    "en": "What is the worst text message you've ever sent to the wrong person?",
+    "fr": "Quelle est la pire chose que tu aies envoyée par message à la mauvaise personne ?",
+    "es": "¿Qué es lo peor que has enviado por mensaje a la persona equivocada?",
+    "de": "Was ist die schlimmste SMS, die du je an die falsche Person geschickt hast?",
+    "it": "Qual è il peggior messaggio che hai mai inviato alla persona sbagliata?",
+    "zh": "你发错人的短信中最糟糕的是哪条？",
+    "ja": "間違った相手に送ってしまった最悪のメッセージは何ですか？"
+  },
+  {
+    "id": "q_014",
+    "en": "What is a completely useless superpower you wish you had?",
+    "fr": "Si tu avais un super-pouvoir totalement inutile, ce serait quoi ?",
+    "es": "Si tuvieras un superpoder totalmente inútil, ¿cuál sería?",
+    "de": "Welche völlig nutzlose Superkraft hättest du gerne?",
+    "it": "Quale superpotere completamente inutile vorresti avere?",
+    "zh": "你希望拥有哪种完全没用的超能力？",
+    "ja": "全く役に立たないけれど欲しい超能力は何ですか？"
+  },
+  {
+    "id": "q_015",
+    "en": "What is a weird food combination that you secretly love?",
+    "fr": "Quel est ce mélange de nourriture bizarre que tu adores secrètement ?",
+    "es": "¿Cuál es esa combinación de comida rara que amas en secreto?",
+    "de": "Was ist eine seltsame Lebensmittelkombination, die du heimlich liebst?",
+    "it": "Qual è una strana combinazione di cibo che ami segretamente?",
+    "zh": "哪种奇怪的食物搭配是你偷偷喜欢的？",
+    "ja": "密かに好きな、奇妙な食べ物の組み合わせは何ですか？"
+  },
+  {
+    "id": "q_016",
+    "en": "If you could steal one thing without any consequences, what would it be?",
+    "fr": "Si tu pouvais voler une chose sans aucune conséquence, que choisirais-tu ?",
+    "es": "Si pudieras robar algo sin consecuencias, ¿qué sería?",
+    "de": "Wenn du eine Sache ohne Konsequenzen stehlen könntest, was wäre das?",
+    "it": "Se potessi rubare una cosa senza conseguenze, quale sarebbe?",
+    "zh": "如果你能偷一件东西而没有任何后果，你会偷什么？",
+    "ja": "もし何の報いも受けずに盗めるとしたら、何を盗みますか？"
+  },
+  {
+    "id": "q_017",
+    "en": "What is your most irrational fear?",
+    "fr": "Quelle est ta peur la plus irrationnelle ?",
+    "es": "¿Cuál es tu miedo más irracional?",
+    "de": "Was ist deine irrationalste Angst?",
+    "it": "Qual è la tua paura più irrazionale?",
+    "zh": "你最不理性的恐惧是什么？",
+    "ja": "最も理不尽な恐怖は何ですか？"
+  },
+  {
+    "id": "q_018",
+    "en": "If you had to marry a fictional character, who would it be?",
+    "fr": "Si tu devais épouser un personnage fictif, qui serait-ce ?",
+    "es": "Si tuvieras que casarte con un personaje de ficción, ¿quién sería?",
+    "de": "Wenn du eine fiktive Figur heiraten müsstest, wer wäre das?",
+    "it": "Se dovessi sposare un personaggio immaginario, chi sarebbe?",
+    "zh": "如果你必须嫁/娶一个虚构角色，会是谁？",
+    "ja": "架空のキャラクターと結婚しなければならないとしたら、誰にしますか？"
+  },
+  {
+    "id": "q_019",
+    "en": "What is a popular movie or song that you absolutely hate?",
+    "fr": "Cite un film ou une chanson très populaire que tu détestes absolument.",
+    "es": "¿Cuál es una película o canción popular que odias absolutamente?",
+    "de": "Was ist ein beliebter Film oder ein beliebtes Lied, das du absolut hasst?",
+    "it": "Qual è un film o una canzone popolare che odi assolutamente?",
+    "zh": "你绝对讨厌哪部热门电影或歌曲？",
+    "ja": "世間では人気だけど、あなたが大嫌いな映画や曲は何ですか？"
+  },
+  {
+    "id": "q_020",
+    "en": "What is the weirdest rumor you have ever heard about yourself?",
+    "fr": "Quelle est la rumeur la plus bizarre que tu aies entendue à ton sujet ?",
+    "es": "¿Cuál el rumor más raro que has escuchado sobre ti?",
+    "de": "Was ist das seltsamste Gerücht, das du je über dich gehört hast?",
+    "it": "Qual è la voce più strana che hai mai sentito sul tuo conto?",
+    "zh": "关于你自己，你听过最奇怪的谣言是什么？",
+    "ja": "自分自身について聞いた中で、最も奇妙な噂は何ですか？"
+  },
+  {
+    "id": "q_021",
+    "en": "If you could erase one memory from your brain, what would it be?",
+    "fr": "Si tu pouvais effacer un souvenir de ta mémoire, ce serait lequel ?",
+    "es": "Si pudieras borrar un recuerdo de tu cerebro, ¿cuál sería?",
+    "de": "Wenn du eine Erinnerung aus deinem Gedächtnis löschen könntest, welche wäre das?",
+    "it": "Se potessi cancellare un ricordo dalla tua mente, quale sarebbe?",
+    "zh": "如果你能从大脑中抹去一段记忆，那会是什么？",
+    "ja": "脳から一つの記憶を消せるとしたら、何を消しますか？"
+  },
+  {
+    "id": "q_022",
+    "en": "What is the most chaotic thing you would do if you were invisible for a day?",
+    "fr": "Quelle est la chose la plus chaotique que tu ferais si tu étais invisible pendant un jour ?",
+    "es": "¿Qué es lo más caótico que harías si fueras invisible por un día?",
+    "de": "Was ist das Chaotischste, das du tun würdest, wenn du einen Tag lang unsichtbar wärst?",
+    "it": "Qual è la cosa più caotica che faresti se fossi invisibile per un giorno?",
+    "zh": "如果你能隐身一天，你会做的最混乱的事是什么？",
+    "ja": "もし一日中透明人間になれたら、どんな混沌としたことをしますか？"
+  },
+  {
+    "id": "q_023",
+    "en": "What is the worst gift you have ever pretended to like?",
+    "fr": "Quel est le pire cadeau que tu as fait semblant d'aimer ?",
+    "es": "¿Cuál es el peor regalo que has fingido que te gustaba?",
+    "de": "Was ist das schlimmste Geschenk, bei dem du je so getan hast, als würdest du es mögen?",
+    "it": "Qual è il peggior regalo che hai mai finto di apprezzare?",
+    "zh": "哪件糟糕的礼物是你假装喜欢的？",
+    "ja": "好きだというふりをした中で、最悪のプレゼントは何ですか？"
+  },
+  {
+    "id": "q_024",
+    "en": "What is your most toxic trait?",
+    "fr": "Quel est ton trait de caractère le plus toxique ?",
+    "es": "¿Cuál es tu rasgo más tóxico?",
+    "de": "Was ist deine toxischste Eigenschaft?",
+    "it": "Qual è il tuo tratto più tossico?",
+    "zh": "你最“毒”的特质是什么？",
+    "ja": "あなたの最も有害（トキシック）な性格は何ですか？"
+  },
+  {
+    "id": "q_025",
+    "en": "If someone looked through your phone right now, what would be the hardest thing to explain?",
+    "fr": "Si quelqu'un fouillait dans ton téléphone tout de suite, quelle serait la chose la plus difficile à expliquer ?",
+    "es": "Si alguien revisara tu teléfono ahora mismo, ¿qué sería lo más difícil de explicar?",
+    "de": "Wenn jetzt jemand durch dein Handy schauen würde, was wäre am schwersten zu erklären?",
+    "it": "Se qualcuno guardasse nel tuo telefono in questo momento, quale sarebbe la cosa più difficile da spiegare?",
+    "zh": "如果现在有人翻看你的手机，什么东西最难解释？",
+    "ja": "もし今誰かにスマホを見られたら、一番言い訳が難しいものは何ですか？"
+  },
+  {
+    "id": "q_026",
+    "en": "If you were a ghost, who would you haunt first?",
+    "fr": "Si tu étais un fantôme, qui hanterais-tu en premier ?",
+    "es": "Si fueras un fantasma, ¿a quién acosarías primero?",
+    "de": "Wenn du ein Geist wärst, wen würdest du als Erstes heimsuchen?",
+    "it": "Se fossi un fantasma, chi perseguiteresti per primo?",
+    "zh": "如果你是鬼，你会先纠缠谁？",
+    "ja": "もし幽霊になったら、最初に誰を化かしますか？"
+  },
+  {
+    "id": "q_027",
+    "en": "What is a rule that you secretly break every time?",
+    "fr": "Quelle règle enfreins-tu secrètement à chaque fois ?",
+    "es": "¿Qué regla rompes secretamente cada vez?",
+    "de": "Welche Regel brichst du jedes Mal heimlich?",
+    "it": "Quale regola infrangi segretamente ogni volta?",
+    "zh": "哪条规则是你每次都偷偷违反的？",
+    "ja": "いつも密かに破っているルールは何ですか？"
+  },
+  {
+    "id": "q_028",
+    "en": "If you had to sacrifice one person in this room to survive a zombie apocalypse, who would it be?",
+    "fr": "Si tu devais sacrifier une personne ici pour survivre à une apocalypse zombie, qui serait-ce ?",
+    "es": "Si tuvieras que sacrificar a una persona en esta habitación para sobrevivir a un apocalipsis zombie, ¿quién sería?",
+    "de": "Wenn du eine Person in diesem Raum opfern müsstest, um eine Zombie-Apokalypse zu überleben, wer wäre das?",
+    "it": "Se dovessi sacrificare una persona in questa stanza per sopravvivere a un'apocalisse zombie, chi sarebbe?",
+    "zh": "如果要在僵尸末日中牺牲房间里的一个人来换取生存，你会选谁？",
+    "ja": "ゾンビの黙示録を生き抜くために、この部屋の誰かを犠牲にしなければならないとしたら、誰を選びますか？"
+  },
+  {
+    "id": "q_029",
+    "en": "What is the most expensive thing you've broken and never told anyone?",
+    "fr": "Quelle est la chose la plus chère que tu aies cassée sans jamais le dire à personne ?",
+    "es": "¿Qué es lo más caro que has roto y nunca se lo has dicho a nadie?",
+    "de": "Was ist das Teuerste, das du je kaputt gemacht und niemandem erzählt hast?",
+    "it": "Qual è la cosa più costosa che hai rotto e non hai mai detto a nessuno?",
+    "zh": "你弄坏过最贵但从未告诉过任何人的东西是什么？",
+    "ja": "誰にも言わずに壊してしまった、最も高価なものは何ですか？"
+  },
+  {
+    "id": "q_030",
+    "en": "If you could replace a world leader with a celebrity, who would it be?",
+    "fr": "Si tu pouvais remplacer un dirigeant mondial par une célébrité, qui choisirais-tu ?",
+    "es": "Si pudieras reemplazar a un líder mundial con una celebridad, ¿quién sería?",
+    "de": "Wenn du einen Staatschef durch einen Prominenten ersetzen könntest, wer wäre das?",
+    "it": "Se potessi sostituire un leader mondiale con una celebrità, chi sarebbe?",
+    "zh": "如果你能用一个名人代替一位世界领导人，你会选谁？",
+    "ja": "もし世界のリーダーを有名人と入れ替えられるとしたら、誰を選びますか？"
+  }
+]
