@@ -332,6 +332,7 @@ export default function Home() {
             <PlayerList
               players={game.players}
               currentPlayerId={game.currentPlayerId}
+              gameLanguage={game.language}
             />
 
             {/* Start button (host only) */}
