@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { GameContextState } from "@/hooks/useGame";
-import { ArrowRight, Trophy, Vote } from "lucide-react";
+import { ArrowRight, Trophy, Vote, Clock } from "lucide-react";
 import questionsData from "../../questions.json";
 import { t } from "@/lib/i18n";
 
@@ -14,7 +14,7 @@ export default function GameEngine({
   game: GameContextState;
 }) {
   // Local states for game phases
-  const [step, setStep] = useState<"Prompt" | "Answers" | "Debate" | "Vote" | "Results">("Answers");
+  const [step, setStep] = useState<"Prompt" | "Answers" | "Debate" | "PassPhoneVote" | "Vote" | "Results">("Answers");
   const [prompt] = useState(() => {
     const rawQ = questionsData[Math.floor(Math.random() * questionsData.length)];
     // Fallback safely if language is slightly mismatched
@@ -31,6 +31,17 @@ export default function GameEngine({
   
   const [scores, setScores] = useState<Map<string, number>>(new Map());
   const [authorId, setAuthorId] = useState<string>("");
+  const [timeLeft, setTimeLeft] = useState(180);
+
+  useEffect(() => {
+    if (step === "Vote") {
+      if (timeLeft <= 0) return;
+      const timerId = setInterval(() => {
+        setTimeLeft((prev: number) => prev - 1);
+      }, 1000);
+      return () => clearInterval(timerId);
+    }
+  }, [step, timeLeft]);
 
   // In a real local logic, one player writes the real answer and others write bluffs?
   // Hide and Think: 'Everyone submits their answer secretly. An answer is revealed anonymously. Everyone votes who wrote it.'
@@ -68,6 +79,8 @@ export default function GameEngine({
     
     if (currentVoteIndex + 1 < game.players.length) {
       setCurrentVoteIndex(currentVoteIndex + 1);
+      setStep("PassPhoneVote");
+      setTimeLeft(180);
     } else {
       // End of vote for this debate round
       const roundScores = game.calculateScores(answers, authorId, newVotes);
@@ -124,10 +137,32 @@ export default function GameEngine({
         <p className="text-white text-lg bg-purple-900/40 p-4 rounded-xl italic">&quot;{authorAnswer}&quot;</p>
         <p className="text-purple-300 text-sm">{t(game.language, "whoWroteThis")}</p>
         <button
-          onClick={() => setStep("Vote")}
+          onClick={() => {
+            setStep("PassPhoneVote");
+            setTimeLeft(180);
+          }}
           className="w-full rounded-xl bg-fuchsia-600 px-6 py-3 font-bold hover:bg-fuchsia-500 transition-colors"
         >
           {t(game.language, "startVoting")} <Vote className="inline ml-2" size={18} />
+        </button>
+      </div>
+    );
+  }
+
+  if (step === "PassPhoneVote") {
+    const currentPlayer = game.players[currentVoteIndex];
+    return (
+      <div className="w-full max-w-md space-y-6 text-center">
+        <h2 className="text-2xl font-bold text-white">{t(game.language, "passTo")} {currentPlayer?.name}</h2>
+        <p className="text-purple-300">C&apos;est l&apos;heure de voter! Passez l&apos;appareil.</p>
+        <button
+          onClick={() => {
+            setStep("Vote");
+            setTimeLeft(180);
+          }}
+          className="w-full rounded-xl bg-fuchsia-600 px-6 py-3 font-bold hover:bg-fuchsia-500 transition-colors mt-6"
+        >
+          {t(game.language, "startVoting")}
         </button>
       </div>
     );
@@ -141,21 +176,44 @@ export default function GameEngine({
           <h2 className="text-2xl font-bold text-white">u should bait</h2>
         </div>
       );
+
+    const isAuthor = currentPlayer.id === authorId;
+    const formatTime = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+
     return (
       <div className="w-full max-w-md space-y-6 text-center">
-        <h2 className="text-2xl font-bold text-white">{t(game.language, "passTo")} {currentPlayer?.name}</h2>
-        <p className="text-purple-300">{t(game.language, "whoDoYouThink")}</p>
-        <div className="space-y-3">
-          {game.players.map(p => (
-            <button
-              key={p.id}
-              onClick={() => handleVote(p.id)}
-              className="w-full rounded-xl bg-purple-900/50 p-4 text-left hover:bg-fuchsia-600/50 transition-colors border border-purple-700/50"
-            >
-              {p.name}
-            </button>
-          ))}
+        <div className="flex items-center justify-center gap-2 text-fuchsia-400 mb-4">
+          <Clock size={24} />
+          <span className="text-2xl font-bold font-mono">{formatTime(timeLeft)}</span>
         </div>
+        <h2 className="text-2xl font-bold text-white">{currentPlayer?.name}&apos;s Turn</h2>
+        <p className="text-purple-300">{t(game.language, "whoDoYouThink")} ({currentDebateIndex + 1}/{answers.length})</p>
+        
+        {isAuthor ? (
+          <div className="space-y-4 pt-4">
+            <p className="text-white text-lg font-bold bg-purple-900/50 p-4 rounded-xl border border-fuchsia-500/30">
+              Shh! C&apos;est ta reponse. Fais semblant de voter !
+            </p>
+            <button
+              onClick={() => handleVote(currentPlayer.id)}
+              className="w-full rounded-xl bg-purple-600 px-6 py-3 font-bold hover:bg-purple-500 transition-colors mt-4"
+            >
+              Faire semblant d&apos;avoir voté
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-3 pt-2">
+            {game.players.map(p => (
+              <button
+                key={p.id}
+                onClick={() => handleVote(p.id)}
+                className="w-full rounded-xl bg-purple-900/50 p-4 text-left hover:bg-fuchsia-600/50 transition-colors border border-purple-700/50"
+              >
+                {p.name}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     );
   }

@@ -338,12 +338,12 @@ export default function Home() {
             {game.playerRole === "Host" && (
               <button
                 onClick={() => setView("game")}
-                disabled={game.players.length < 2}
+                disabled={game.players.length < 3}
                 className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-700 to-fuchsia-700 px-6 py-4 text-base font-bold shadow-lg shadow-fuchsia-900/30 transition hover:brightness-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <Zap size={18} />
-                {game.players.length < 2
-                  ? `${t(game.language, "waitingPlayers")} (${game.players.length}/2+)`
+                {game.players.length < 3
+                  ? `${t(game.language, "waitingPlayers")} (${game.players.length}/3+)`
                   : t(game.language, "startGame")}
               </button>
             )}
