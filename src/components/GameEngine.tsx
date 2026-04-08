@@ -26,6 +26,7 @@ export default function GameEngine({
   const [currentAnswerText, setCurrentAnswerText] = useState("");
   
   const [currentVoteIndex, setCurrentVoteIndex] = useState(0);
+  const [currentDebateIndex, setCurrentDebateIndex] = useState(0);
   const [votes, setVotes] = useState<{playerId: string; guessedAuthorId: string}[]>([]);
   
   const [scores, setScores] = useState<Map<string, number>>(new Map());
@@ -49,9 +50,11 @@ export default function GameEngine({
     if (currentAnswerIndex + 1 < game.players.length) {
       setCurrentAnswerIndex(currentAnswerIndex + 1);
     } else {
-      // Pick random author to debate!
-      const randomAuthor = newAnswers[Math.floor(Math.random() * newAnswers.length)];
-      setAuthorId(randomAuthor.playerId);
+      // Shuffle answers for random debate order
+      const shuffledAnswers = [...newAnswers].sort(() => Math.random() - 0.5);
+      setAnswers(shuffledAnswers);
+      setAuthorId(shuffledAnswers[0].playerId);
+      setCurrentDebateIndex(0);
       setStep("Debate");
     }
   };
@@ -66,10 +69,27 @@ export default function GameEngine({
     if (currentVoteIndex + 1 < game.players.length) {
       setCurrentVoteIndex(currentVoteIndex + 1);
     } else {
-      // End of vote
-      const finalScores = game.calculateScores(answers, authorId, newVotes);
-      setScores(finalScores);
-      setStep("Results");
+      // End of vote for this debate round
+      const roundScores = game.calculateScores(answers, authorId, newVotes);
+      
+      const newScores = new Map<string, number>(scores);
+      for (const [pId, pScore] of roundScores.entries()) {
+        const currentScore = newScores.get(pId);
+        newScores.set(pId, (typeof currentScore === "number" ? currentScore : 0) + pScore);
+      }
+      setScores(newScores);
+
+      if (currentDebateIndex + 1 < answers.length) {
+        // Next debate
+        setCurrentDebateIndex(currentDebateIndex + 1);
+        setAuthorId(answers[currentDebateIndex + 1].playerId);
+        setVotes([]);
+        setCurrentVoteIndex(0);
+        setStep("Debate");
+      } else {
+        // End of all debates
+        setStep("Results");
+      }
     }
   };
 
@@ -100,7 +120,7 @@ export default function GameEngine({
     const authorAnswer = answers.find((a: {playerId: string; answer: string}) => a.playerId === authorId)?.answer;
     return (
       <div className="w-full max-w-md space-y-6 text-center">
-        <h2 className="text-2xl font-bold text-fuchsia-400">{t(game.language, "timeToDebate")}</h2>
+        <h2 className="text-2xl font-bold text-fuchsia-400">{t(game.language, "timeToDebate")} ({currentDebateIndex + 1}/{answers.length})</h2>
         <p className="text-white text-lg bg-purple-900/40 p-4 rounded-xl italic">&quot;{authorAnswer}&quot;</p>
         <p className="text-purple-300 text-sm">{t(game.language, "whoWroteThis")}</p>
         <button
@@ -119,7 +139,7 @@ export default function GameEngine({
     return (
       <div className="w-full max-w-md space-y-6 text-center">
         <h2 className="text-2xl font-bold text-white">{t(game.language, "passTo")} {currentPlayer?.name}</h2>
-        <p className="text-purple-300">{t(game.language, "whoDoYouThink")}</p>
+        <p className="text-purple-300">{t(game.language, "whoDoYouThink")} ({currentDebateIndex + 1}/{answers.length})</p>
         <div className="space-y-3">
           {game.players.map(p => (
             <button
@@ -136,14 +156,14 @@ export default function GameEngine({
   }
 
   if (step === "Results") {
-    const author = game.players.find(p => p.id === authorId);
+    // Sort players by score
+    const sortedPlayers = [...game.players].sort((a, b) => (scores.get(b.id) || 0) - (scores.get(a.id) || 0));
     return (
       <div className="w-full max-w-md space-y-6 text-center">
         <Trophy className="mx-auto text-yellow-400" size={48} />
         <h2 className="text-3xl font-bold text-white">{t(game.language, "results")}</h2>
-        <p className="text-purple-300">{t(game.language, "answerWrittenBy")} <span className="font-bold text-fuchsia-400">{author?.name}</span>!</p>
         <div className="space-y-3 bg-purple-950/40 p-4 rounded-xl">
-          {game.players.map(p => (
+          {sortedPlayers.map(p => (
             <div key={p.id} className="flex justify-between items-center border-b border-purple-800/30 py-2 last:border-0">
               <span className="text-white">{p.name}</span>
               <span className="text-fuchsia-300 font-bold">+{scores.get(p.id) || 0} {t(game.language, "pts")}</span>
