@@ -135,11 +135,16 @@ export default function GameEngine({
 
   if (step === "Vote") {
     const currentPlayer = game.players[currentVoteIndex];
-    // Skip if current player is the author? Actually authors can vote too (to self-vote or bluff) or we let everyone vote.
+    if (!currentPlayer) 
+      return (
+        <div className="w-full max-w-md space-y-6 text-center">
+          <h2 className="text-2xl font-bold text-white">u should bait</h2>
+        </div>
+      );
     return (
       <div className="w-full max-w-md space-y-6 text-center">
         <h2 className="text-2xl font-bold text-white">{t(game.language, "passTo")} {currentPlayer?.name}</h2>
-        <p className="text-purple-300">{t(game.language, "whoDoYouThink")} ({currentDebateIndex + 1}/{answers.length})</p>
+        <p className="text-purple-300">{t(game.language, "whoDoYouThink")}</p>
         <div className="space-y-3">
           {game.players.map(p => (
             <button
