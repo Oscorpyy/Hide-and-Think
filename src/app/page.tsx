@@ -337,16 +337,34 @@ export default function Home() {
 
             {/* Start button (host only) */}
             {game.playerRole === "Host" && (
-              <button
-                onClick={() => setView("game")}
-                disabled={game.players.length < 3}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-700 to-fuchsia-700 px-6 py-4 text-base font-bold shadow-lg shadow-fuchsia-900/30 transition hover:brightness-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                <Zap size={18} />
-                {game.players.length < 3
-                  ? `${t(game.language, "waitingPlayers")} (${game.players.length}/3+)`
-                  : t(game.language, "startGame")}
-              </button>
+              <div className="space-y-4">
+                <div className="flex flex-col gap-2 rounded-xl border border-purple-800/50 bg-purple-950/30 p-4">
+                  <label className="text-sm font-semibold text-purple-300">
+                    Question Selection Mode
+                  </label>
+                  <select
+                    value={game.questionMode}
+                    onChange={(e) => game.setQuestionMode(e.target.value as any)}
+                    className="rounded-lg bg-purple-900/50 px-3 py-2 text-sm text-white outline-none border border-purple-800/50 focus:border-fuchsia-500"
+                  >
+                    <option value="random">Random Question</option>
+                    <option value="vote_preset">Multiple Choice (Vote)</option>
+                    <option value="vote_custom">Players Write & Vote</option>
+                    <option value="random_custom">Players Write (Random Pick)</option>
+                  </select>
+                </div>
+                
+                <button
+                  onClick={() => setView("game")}
+                  disabled={game.players.length < 3}
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-700 to-fuchsia-700 px-6 py-4 text-base font-bold shadow-lg shadow-fuchsia-900/30 transition hover:brightness-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  <Zap size={18} />
+                  {game.players.length < 3
+                    ? `${t(game.language, "waitingPlayers")} (${game.players.length}/3+)`
+                    : t(game.language, "startGame")}
+                </button>
+              </div>
             )}
 
             {/* Chat box — only in Online mode */}

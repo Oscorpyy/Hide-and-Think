@@ -6,6 +6,7 @@ import { groupAnswers } from "@/lib/utils";
 export type PlayerRole = "Host" | "Player" | null;
 export type GameMode = "Local" | "Online" | null;
 export type GameState = "Lobby" | "Input" | "Debate" | "Voting" | "Results";
+export type QuestionMode = "random" | "vote_preset" | "vote_custom" | "random_custom";
 export type Language = "en" | "fr" | "es" | "de" | "it" | "zh" | "ja";
 
 export interface Player {
@@ -27,6 +28,7 @@ export interface GameContextState {
   playerRole: PlayerRole;
   gameMode: GameMode;
   gameState: GameState;
+  questionMode: QuestionMode;
   language: Language;
   roomCode: string;
   players: Player[];
@@ -35,6 +37,7 @@ export interface GameContextState {
   setPlayerRole: (role: PlayerRole) => void;
   setGameMode: (mode: GameMode) => void;
   setGameState: (state: GameState) => void;
+  setQuestionMode: (mode: QuestionMode) => void;
   setLanguage: (lang: Language) => void;
   setRoomCode: (code: string) => void;
   addPlayer: (player: Player) => void;
@@ -52,6 +55,7 @@ export function useGame(): GameContextState {
   const [playerRole, setPlayerRole] = useState<PlayerRole>(null);
   const [gameMode, setGameMode] = useState<GameMode>(null);
   const [gameState, setGameState] = useState<GameState>("Lobby");
+  const [questionMode, setQuestionMode] = useState<QuestionMode>("random");
   const [language, setLanguage] = useState<Language>("en");
   const [roomCode, setRoomCode] = useState<string>("");
   const [players, setPlayers] = useState<Player[]>([]);
@@ -140,6 +144,7 @@ export function useGame(): GameContextState {
     setPlayerRole(null);
     setGameMode(null);
     setGameState("Lobby");
+    setQuestionMode("random");
     setRoomCode("");
     setPlayers([]);
     setChatMessages([]);
@@ -149,6 +154,7 @@ export function useGame(): GameContextState {
     playerRole,
     gameMode,
     gameState,
+    questionMode,
     language,
     roomCode,
     players,
@@ -157,6 +163,7 @@ export function useGame(): GameContextState {
     setPlayerRole,
     setGameMode,
     setGameState,
+    setQuestionMode,
     setLanguage,
     setRoomCode,
     addPlayer,
