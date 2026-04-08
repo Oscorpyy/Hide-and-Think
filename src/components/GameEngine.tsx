@@ -154,7 +154,7 @@ export default function GameEngine({
     return (
       <div className="w-full max-w-md space-y-6 text-center">
         <h2 className="text-2xl font-bold text-white">{t(game.language, "passTo")} {currentPlayer?.name}</h2>
-        <p className="text-purple-300">C&apos;est l&apos;heure de voter! Passez l&apos;appareil.</p>
+        <p className="text-purple-300">{t(game.language, "timeToVotePass")}</p>
         <button
           onClick={() => {
             setStep("Vote");
@@ -173,7 +173,7 @@ export default function GameEngine({
     if (!currentPlayer) 
       return (
         <div className="w-full max-w-md space-y-6 text-center">
-          <h2 className="text-2xl font-bold text-white">u should bait</h2>
+          <h2 className="text-2xl font-bold text-white">{t(game.language, "uShouldBait")}</h2>
         </div>
       );
 
@@ -187,20 +187,20 @@ export default function GameEngine({
           <Clock size={24} />
           <span className="text-2xl font-bold font-mono">{formatTime(timeLeft)}</span>
         </div>
-        <h2 className="text-2xl font-bold text-white">{currentPlayer?.name}&apos;s Turn</h2>
+        <h2 className="text-2xl font-bold text-white">{currentPlayer?.name}{t(game.language, "yourTurn")}</h2>
         <p className="text-white text-lg bg-purple-900/40 p-4 rounded-xl italic">&quot;{authorAnswer}&quot;</p>
         <p className="text-purple-300">{t(game.language, "whoDoYouThink")} ({currentDebateIndex + 1}/{answers.length})</p>
         
         {isAuthor ? (
           <div className="space-y-4 pt-4">
             <p className="text-white text-lg font-bold bg-purple-900/50 p-4 rounded-xl border border-fuchsia-500/30">
-              Shh! C&apos;est ta reponse. Fais semblant de voter !
+              {t(game.language, "shhYourAnswer")}
             </p>
             <button
               onClick={() => handleVote(currentPlayer.id)}
               className="w-full rounded-xl bg-purple-600 px-6 py-3 font-bold hover:bg-purple-500 transition-colors mt-4"
             >
-              Faire semblant d&apos;avoir voté
+              {t(game.language, "pretendVoted")}
             </button>
           </div>
         ) : (
