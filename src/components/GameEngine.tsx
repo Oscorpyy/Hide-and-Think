@@ -178,6 +178,7 @@ export default function GameEngine({
       );
 
     const isAuthor = currentPlayer.id === authorId;
+    const authorAnswer = answers.find((a: {playerId: string; answer: string}) => a.playerId === authorId)?.answer;
     const formatTime = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 
     return (
@@ -187,6 +188,7 @@ export default function GameEngine({
           <span className="text-2xl font-bold font-mono">{formatTime(timeLeft)}</span>
         </div>
         <h2 className="text-2xl font-bold text-white">{currentPlayer?.name}&apos;s Turn</h2>
+        <p className="text-white text-lg bg-purple-900/40 p-4 rounded-xl italic">&quot;{authorAnswer}&quot;</p>
         <p className="text-purple-300">{t(game.language, "whoDoYouThink")} ({currentDebateIndex + 1}/{answers.length})</p>
         
         {isAuthor ? (
