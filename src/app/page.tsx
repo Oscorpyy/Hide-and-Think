@@ -11,7 +11,7 @@ import {
   PlusCircle,
   Zap,
 } from "lucide-react";
-import { useGame, Language } from "@/hooks/useGame";
+import { useGame, Language, QuestionMode } from "@/hooks/useGame";
 import { generateRoomCode } from "@/lib/utils";
 import PlayerList from "@/components/PlayerList";
 import ChatBox from "@/components/ChatBox";
@@ -344,7 +344,7 @@ export default function Home() {
                   </label>
                   <select
                     value={game.questionMode}
-                    onChange={(e) => game.setQuestionMode(e.target.value as any)}
+                    onChange={(e) => game.setQuestionMode(e.target.value as QuestionMode)}
                     className="rounded-lg bg-purple-900/50 px-3 py-2 text-sm text-white outline-none border border-purple-800/50 focus:border-fuchsia-500"
                   >
                     <option value="random">Random Question</option>
