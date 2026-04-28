@@ -139,7 +139,7 @@ export default function GameEngine({
       const shuffledAnswers = [...newAnswers].sort(() => Math.random() - 0.5);
       setAnswers(shuffledAnswers);
       // CORRECTION : Accès à l'index pour éviter l'erreur TypeScript
-      setAuthorId(shuffledAnswers.playerId);
+      setAuthorId(shuffledAnswers[shuffledAnswers.length - 1].playerId);
       setCurrentDebateIndex(0);
       setStep("Debate");
     }
