@@ -2,16 +2,18 @@
 
 import React, { useState, useEffect } from "react";
 import { GameContextState } from "@/hooks/useGame";
-import { ArrowRight, Trophy, Vote, Clock, Eye } from "lucide-react";
+import { ArrowRight, Trophy, Vote, Clock, Eye, Info } from "lucide-react";
 import questionsData from "../../questions.json";
 import { t } from "@/lib/i18n";
 
+// Types pour le détail des points
 type PointSource = "detective" | "bluffer";
 
 interface PointBreakdown {
   playerId: string;
   amount: number;
   reason: PointSource;
+  answerText: string;
 }
 
 type GamePhase =
@@ -93,8 +95,7 @@ export default function GameEngine({
     } else {
       const options = newCustoms.map(c => c.text);
       if (game.questionMode === "random_custom") {
-        const chosen = options[Math.floor(Math.random() * options.length)];
-        setPrompt(chosen);
+        setPrompt(options[Math.floor(Math.random() * options.length)]);
         setStep("Answers");
       } else {
         setPromptOptions(options);
@@ -121,8 +122,7 @@ export default function GameEngine({
         if (v > maxVote) { maxVote = v; bestIndices = [i]; }
         else if (v === maxVote) { bestIndices.push(i); }
       });
-      const winnerIndex = bestIndices[Math.floor(Math.random() * bestIndices.length)];
-      setPrompt(promptOptions[winnerIndex]);
+      setPrompt(promptOptions[bestIndices[Math.floor(Math.random() * bestIndices.length)]]);
       setStep("Answers");
     }
   };
@@ -138,6 +138,7 @@ export default function GameEngine({
     } else {
       const shuffledAnswers = [...newAnswers].sort(() => Math.random() - 0.5);
       setAnswers(shuffledAnswers);
+      // CORRECTION : Accès à l'index pour éviter l'erreur TypeScript
       setAuthorId(shuffledAnswers.playerId);
       setCurrentDebateIndex(0);
       setStep("Debate");
@@ -157,22 +158,29 @@ export default function GameEngine({
       const newScores = new Map<string, number>(scores);
       const roundHistory: PointBreakdown[] = [];
 
+      const currentAnsText = answers.find(a => a.playerId === authorId)?.answer || "";
+
       for (const [pId, pScore] of roundScores.entries()) {
-        const currentScore = newScores.get(pId) || 0;
-        newScores.set(pId, currentScore + pScore);
-        if (pId === authorId && pScore === 3) {
-          roundHistory.push({ playerId: pId, amount: 3, reason: "bluffer" });
-        } else if (pScore === 1) {
-          roundHistory.push({ playerId: pId, amount: 1, reason: "detective" });
+        const currentTotal = newScores.get(pId) || 0;
+        newScores.set(pId, currentTotal + pScore);
+        
+        if (pScore > 0) {
+          roundHistory.push({
+            playerId: pId,
+            amount: pScore,
+            reason: pId === authorId ? "bluffer" : "detective",
+            answerText: currentAnsText
+          });
         }
       }
 
       setScores(newScores);
-      setPointsHistory([...pointsHistory, ...roundHistory]);
+      setPointsHistory(prev => [...prev, ...roundHistory]);
 
       if (currentDebateIndex + 1 < answers.length) {
-        setCurrentDebateIndex(currentDebateIndex + 1);
-        setAuthorId(answers[currentDebateIndex + 1].playerId);
+        const nextIdx = currentDebateIndex + 1;
+        setCurrentDebateIndex(nextIdx);
+        setAuthorId(answers[nextIdx].playerId);
         setVotes([]);
         setCurrentVoteIndex(0);
         setStep("Debate");
@@ -186,79 +194,56 @@ export default function GameEngine({
 
   if (step === "InitPrompt") return null;
 
-  if (step === "PassPhoneInputPrompt") {
-    const currentPlayer = game.players[currentPromptActionIndex];
-    return (
-      <div className="w-full max-w-md space-y-6 text-center">
-        <h2 className="text-2xl font-bold text-white">{t(game.language, "passTo")} {currentPlayer?.name}</h2>
-        <p className="text-purple-300">Submit your custom question!</p>
-        <button
-          onClick={() => setStep("InputPrompt")}
-          className="w-full rounded-xl bg-fuchsia-600 px-6 py-3 font-bold hover:bg-fuchsia-500 transition-colors mt-6"
-        >
-          {t(game.language, "submitPass")}
-        </button>
-      </div>
-    );
-  }
-
-  if (step === "InputPrompt") {
-    const currentPlayer = game.players[currentPromptActionIndex];
-    return (
+  // --- RENDER PHASES ---
+  if (step === "PassPhoneInputPrompt" || step === "InputPrompt") {
+     const currentPlayer = game.players[currentPromptActionIndex];
+     if (step === "PassPhoneInputPrompt") {
+        return (
+          <div className="w-full max-w-md space-y-6 text-center">
+            <h2 className="text-2xl font-bold text-white">{t(game.language, "passTo")} {currentPlayer?.name}</h2>
+            <button onClick={() => setStep("InputPrompt")} className="w-full rounded-xl bg-fuchsia-600 px-6 py-3 font-bold">
+              {t(game.language, "submitPass")}
+            </button>
+          </div>
+        );
+     }
+     return (
       <div className="w-full max-w-md space-y-6 text-center">
         <h2 className="text-2xl font-bold text-white">{currentPlayer?.name}, write a question</h2>
         <textarea
-          className="w-full rounded-xl bg-purple-950/50 p-4 text-white outline-none border border-purple-800/50 focus:border-fuchsia-500"
+          className="w-full rounded-xl bg-purple-950/50 p-4 text-white border border-purple-800/50"
           rows={4}
-          placeholder={"Type a question..."}
           value={tempPromptInput}
           onChange={(e) => setTempPromptInput(e.target.value)}
         />
-        <button
-          onClick={handleNextPromptInput}
-          className="w-full rounded-xl bg-fuchsia-600 px-6 py-3 font-bold hover:bg-fuchsia-500 transition-colors"
-        >
+        <button onClick={handleNextPromptInput} className="w-full rounded-xl bg-fuchsia-600 px-6 py-3 font-bold">
           {t(game.language, "submitPass")} <ArrowRight className="inline ml-2" size={18} />
         </button>
       </div>
     );
   }
 
-  if (step === "PassPhoneVotePrompt") {
+  if (step === "PassPhoneVotePrompt" || step === "VotePrompt") {
     const currentPlayer = game.players[currentPromptActionIndex];
-    return (
-      <div className="w-full max-w-md space-y-6 text-center">
-        <h2 className="text-2xl font-bold text-white">{t(game.language, "passTo")} {currentPlayer?.name}</h2>
-        <p className="text-purple-300">Vote for the best question!</p>
-        <button
-          onClick={() => {
-            setStep("VotePrompt");
-            setTimeLeft(180);
-          }}
-          className="w-full rounded-xl bg-fuchsia-600 px-6 py-3 font-bold hover:bg-fuchsia-500 transition-colors mt-6"
-        >
-          {t(game.language, "startVoting")}
-        </button>
-      </div>
-    );
-  }
-
-  if (step === "VotePrompt") {
-    const currentPlayer = game.players[currentPromptActionIndex];
+    if (step === "PassPhoneVotePrompt") {
+      return (
+        <div className="w-full max-w-md space-y-6 text-center">
+          <h2 className="text-2xl font-bold text-white">{t(game.language, "passTo")} {currentPlayer?.name}</h2>
+          <button onClick={() => { setStep("VotePrompt"); setTimeLeft(180); }} className="w-full rounded-xl bg-fuchsia-600 px-6 py-3 font-bold">
+            {t(game.language, "startVoting")}
+          </button>
+        </div>
+      );
+    }
     return (
       <div className="w-full max-w-md space-y-6 text-center">
         <div className="flex items-center justify-center gap-2 text-fuchsia-400 mb-4">
-          <Clock size={24} />
-          <span className="text-2xl font-bold font-mono">{formatTime(timeLeft)}</span>
+          <Clock size={24} /> <span className="text-2xl font-bold font-mono">{formatTime(timeLeft)}</span>
         </div>
         <h2 className="text-2xl font-bold text-white">{currentPlayer?.name}, pick a question</h2>
         <div className="space-y-3 pt-2">
           {promptOptions.map((opt, idx) => (
-            <button
-              key={idx}
-              onClick={() => handleNextPromptVote(idx)}
-              className="w-full rounded-xl bg-purple-900/50 p-4 text-left hover:bg-fuchsia-600/50 transition-colors border border-purple-700/50"
-            >
+            <button key={idx} onClick={() => handleNextPromptVote(idx)} className="w-full rounded-xl bg-purple-900/50 p-4 text-left border border-purple-700/50">
               &quot;{opt}&quot;
             </button>
           ))}
@@ -272,21 +257,16 @@ export default function GameEngine({
     return (
       <div className="w-full max-w-md space-y-6 text-center">
         <h2 className="text-2xl font-bold text-white">{t(game.language, "passTo")} {currentPlayer?.name}</h2>
-        <div className="text-fuchsia-300 font-bold bg-fuchsia-900/30 p-3 rounded-lg border border-fuchsia-500/20 shadow-inner">
-          <span className="text-xs uppercase tracking-widest text-fuchsia-400/80 mb-1 block">Question</span>
+        <div className="text-fuchsia-300 font-bold bg-fuchsia-900/30 p-3 rounded-lg border border-fuchsia-500/20">
           {prompt}
         </div>
         <textarea
-          className="w-full rounded-xl bg-purple-950/50 p-4 text-white outline-none border border-purple-800/50 focus:border-fuchsia-500"
+          className="w-full rounded-xl bg-purple-950/50 p-4 text-white border border-purple-800/50"
           rows={4}
-          placeholder={t(game.language, "typeAnswer")}
           value={currentAnswerText}
           onChange={(e) => setCurrentAnswerText(e.target.value)}
         />
-        <button
-          onClick={handleNextAnswer}
-          className="w-full rounded-xl bg-fuchsia-600 px-6 py-3 font-bold hover:bg-fuchsia-500 transition-colors"
-        >
+        <button onClick={handleNextAnswer} className="w-full rounded-xl bg-fuchsia-600 px-6 py-3 font-bold">
           {t(game.language, "submitPass")} <ArrowRight className="inline ml-2" size={18} />
         </button>
       </div>
@@ -298,83 +278,44 @@ export default function GameEngine({
     return (
       <div className="w-full max-w-md space-y-6 text-center">
         <h2 className="text-2xl font-bold text-fuchsia-400">{t(game.language, "timeToDebate")} ({currentDebateIndex + 1}/{answers.length})</h2>
-        <div className="text-fuchsia-300 bg-fuchsia-900/30 px-3 py-2 rounded-lg border border-fuchsia-500/20 text-sm">
-          {prompt}
-        </div>
         <p className="text-white text-lg bg-purple-900/40 p-4 rounded-xl italic">&quot;{authorAnswer}&quot;</p>
-        <p className="text-purple-300 text-sm">{t(game.language, "whoWroteThis")}</p>
-        <button
-          onClick={() => {
-            setStep("PassPhoneVote");
-            setTimeLeft(180);
-          }}
-          className="w-full rounded-xl bg-fuchsia-600 px-6 py-3 font-bold hover:bg-fuchsia-500 transition-colors"
-        >
+        <button onClick={() => { setStep("PassPhoneVote"); setTimeLeft(180); }} className="w-full rounded-xl bg-fuchsia-600 px-6 py-3 font-bold">
           {t(game.language, "startVoting")} <Vote className="inline ml-2" size={18} />
         </button>
       </div>
     );
   }
 
-  if (step === "PassPhoneVote") {
+  if (step === "PassPhoneVote" || step === "Vote") {
     const currentPlayer = game.players[currentVoteIndex];
-    return (
-      <div className="w-full max-w-md space-y-6 text-center">
-        <h2 className="text-2xl font-bold text-white">{t(game.language, "passTo")} {currentPlayer?.name}</h2>
-        <p className="text-purple-300">{t(game.language, "timeToVotePass")}</p>
-        <button
-          onClick={() => {
-            setStep("Vote");
-            setTimeLeft(180);
-          }}
-          className="w-full rounded-xl bg-fuchsia-600 px-6 py-3 font-bold hover:bg-fuchsia-500 transition-colors mt-6"
-        >
-          {t(game.language, "startVoting")}
-        </button>
-      </div>
-    );
-  }
-
-  if (step === "Vote") {
-    const currentPlayer = game.players[currentVoteIndex];
-    if (!currentPlayer) return null;
-
+    if (step === "PassPhoneVote") {
+      return (
+        <div className="w-full max-w-md space-y-6 text-center">
+          <h2 className="text-2xl font-bold text-white">{t(game.language, "passTo")} {currentPlayer?.name}</h2>
+          <button onClick={() => { setStep("Vote"); setTimeLeft(180); }} className="w-full rounded-xl bg-fuchsia-600 px-6 py-3 font-bold">
+            {t(game.language, "startVoting")}
+          </button>
+        </div>
+      );
+    }
     const isAuthor = currentPlayer.id === authorId;
     const authorAnswer = answers.find(a => a.playerId === authorId)?.answer;
-
     return (
       <div className="w-full max-w-md space-y-6 text-center">
         <div className="flex items-center justify-center gap-2 text-fuchsia-400 mb-4">
-          <Clock size={24} />
-          <span className="text-2xl font-bold font-mono">{formatTime(timeLeft)}</span>
+          <Clock size={24} /> <span className="text-2xl font-bold font-mono">{formatTime(timeLeft)}</span>
         </div>
         <h2 className="text-2xl font-bold text-white">{currentPlayer?.name}{t(game.language, "yourTurn")}</h2>
-        <div className="text-fuchsia-300 bg-fuchsia-900/30 px-3 py-2 rounded-lg border border-fuchsia-500/20 text-sm">
-          {prompt}
-        </div>
         <p className="text-white text-lg bg-purple-900/40 p-4 rounded-xl italic">&quot;{authorAnswer}&quot;</p>
-        <p className="text-purple-300">{t(game.language, "whoDoYouThink")} ({currentDebateIndex + 1}/{answers.length})</p>
-
         {isAuthor ? (
           <div className="space-y-4 pt-4">
-            <p className="text-white text-lg font-bold bg-purple-900/50 p-4 rounded-xl border border-fuchsia-500/30">
-              {t(game.language, "shhYourAnswer")}
-            </p>
-            <button
-              onClick={() => handleVote(currentPlayer.id)}
-              className="w-full rounded-xl bg-purple-600 px-6 py-3 font-bold hover:bg-purple-500 transition-colors mt-4"
-            >
-              {t(game.language, "pretendVoted")}
-            </button>
+            <p className="text-white font-bold bg-purple-900/50 p-4 rounded-xl border border-fuchsia-500/30">C&apos;est votre réponse ! Chut...</p>
+            <button onClick={() => handleVote(currentPlayer.id)} className="w-full rounded-xl bg-purple-600 px-6 py-3 font-bold">Faire semblant</button>
           </div>
         ) : (
-          <div className="space-y-3 pt-2">
+          <div className="grid grid-cols-1 gap-3 pt-2">
             {game.players.map(p => (
-              <button
-                key={p.id}
-                onClick={() => handleVote(p.id)}
-                className="w-full rounded-xl bg-purple-900/50 p-4 text-left hover:bg-fuchsia-600/50 transition-colors border border-purple-700/50"
-              >
+              <button key={p.id} onClick={() => handleVote(p.id)} className="w-full rounded-xl bg-purple-900/50 p-4 text-left border border-purple-700/50">
                 {p.name}
               </button>
             ))}
@@ -388,36 +329,38 @@ export default function GameEngine({
     return (
       <div className="w-full max-w-md space-y-6 text-center">
         <div className="flex items-center justify-center gap-2 text-fuchsia-400">
-          <Eye size={32} />
-          <h2 className="text-3xl font-bold text-white">The Big Reveal</h2>
+          <Eye size={32} /> <h2 className="text-3xl font-bold text-white">Le Débrief</h2>
         </div>
-        <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
-          {answers.map((a, idx) => {
-            const player = game.players.find(p => p.id === a.playerId);
-            const playerPoints = pointsHistory.filter(h => h.playerId === a.playerId);
-            const isBluffer = playerPoints.some(h => h.reason === "bluffer");
+        
+        <div className="bg-blue-900/20 p-3 rounded-lg border border-blue-500/30 text-left text-xs text-blue-200 flex gap-2">
+          <Info size={16} className="shrink-0" />
+          <p><strong>Détective :</strong> +1 pt si vous trouvez le bon auteur.<br/><strong>Bluff :</strong> +3 pts si personne ne vous démasque.</p>
+        </div>
 
+        <div className="space-y-4 max-h-[50vh] overflow-y-auto pr-2">
+          {answers.map((ans, idx) => {
+            const player = game.players.find(p => p.id === ans.playerId);
+            const playerHistory = pointsHistory.filter(h => h.answerText === ans.answer && h.playerId === ans.playerId);
+            const isBlufferSucceed = playerHistory.some(h => h.reason === "bluffer");
+            
             return (
               <div key={idx} className="bg-purple-900/30 p-4 rounded-xl border border-purple-700/50 text-left">
-                <p className="text-fuchsia-300 italic mb-2">&quot;{a.answer}&quot;</p>
+                <p className="text-fuchsia-300 italic mb-2 text-sm">&quot;{ans.answer}&quot;</p>
                 <div className="flex justify-between items-center">
-                  <span className="text-white font-bold">Author: {player?.name}</span>
+                  <span className="text-white font-bold text-sm">Auteur : {player?.name}</span>
                   <div className="flex gap-2">
-                    {isBluffer && <span className="bg-orange-600 text-xs px-2 py-1 rounded text-white font-bold">+3 Bluff</span>}
-                    <span className="bg-blue-600 text-xs px-2 py-1 rounded text-white font-bold">
-                      +{playerPoints.filter(h => h.reason === "detective").length} Guess
-                    </span>
+                    {isBlufferSucceed && <span className="bg-orange-600 text-[10px] px-2 py-1 rounded text-white font-bold">BLUFF +3</span>}
+                    {pointsHistory.filter(h => h.answerText === ans.answer && h.reason === "detective").length > 0 && (
+                       <span className="bg-blue-600 text-[10px] px-2 py-1 rounded text-white font-bold">DÉTECTION +1</span>
+                    )}
                   </div>
                 </div>
               </div>
             );
           })}
         </div>
-        <button
-          onClick={() => setStep("Results")}
-          className="w-full rounded-xl bg-fuchsia-600 px-6 py-3 font-bold hover:bg-fuchsia-500 transition-all flex items-center justify-center gap-2 mt-4"
-        >
-          See Final Leaderboard <Trophy size={18} />
+        <button onClick={() => setStep("Results")} className="w-full rounded-xl bg-fuchsia-600 px-6 py-3 font-bold flex items-center justify-center gap-2">
+          Voir le classement <Trophy size={18} />
         </button>
       </div>
     );
@@ -437,10 +380,7 @@ export default function GameEngine({
             </div>
           ))}
         </div>
-        <button
-          onClick={onRestart}
-          className="w-full rounded-xl mt-4 bg-fuchsia-600 px-6 py-3 font-bold hover:bg-fuchsia-500 transition-colors"
-        >
+        <button onClick={onRestart} className="w-full rounded-xl mt-4 bg-fuchsia-600 px-6 py-3 font-bold">
           {t(game.language, "returnLobby")}
         </button>
       </div>
